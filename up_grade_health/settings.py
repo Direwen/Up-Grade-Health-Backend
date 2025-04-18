@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     
     'core',
     'profile_management',
+    'chat_app'
 ]
 
 MIDDLEWARE = [

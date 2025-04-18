@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from .models import Profile
 from .serializers import ProfileSerializer
 from .utils import extract_health_conditions
-from core.utils import get_openai_client
+from assistant.llm_clients import groq_client
 import json
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -22,7 +22,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         # Automatically generate values of conditions and restrictions via LLM
         health_description = serializer.validated_data.get("health_description")
         # Extract conditions and restrictions using LLM
-        ai_response = extract_health_conditions(client=get_openai_client(), health_description=health_description)
+        ai_response = extract_health_conditions(client=groq_client, health_description=health_description)
         if not ai_response:
             return Response({"error": "Failed to extract health conditions."}, status=400)
         health_data = json.loads(ai_response)

@@ -1,4 +1,6 @@
-def extract_health_conditions(client, health_description):
+from openai import OpenAI
+
+def extract_health_conditions(client : OpenAI, health_description : str):
     
     try:
         response = client.chat.completions.create(
@@ -6,7 +8,10 @@ def extract_health_conditions(client, health_description):
             messages=[
                 {
                     "role": "system",
-                    "content": """You are the user health profile builder. Your job is to Extract 'conditions' and 'restrictions' from the user's health description in JSON. Example: Input: "I have diabetes and am allergic to peanuts." Output: {"conditions": ["diabetes"], "restrictions": ["peanuts"]}""",
+                    "content": """You are the user health profile builder. 
+                    Your job is to Extract 'conditions' and 'restrictions' from the user's health description in JSON.
+                    Example: Input: "I have diabetes and am allergic to peanuts." 
+                    Output: {"conditions": ["diabetes"], "restrictions": ["peanuts"]}""",
                 },
                 {
                     "role": "user",
@@ -21,5 +26,5 @@ def extract_health_conditions(client, health_description):
     
         return response.choices[0].message.content
     
-    except Exception as err:
+    except:
         return None
